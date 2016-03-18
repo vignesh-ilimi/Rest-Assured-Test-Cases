@@ -3,6 +3,7 @@
 package org.ekstep.lp.domain;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.jayway.restassured.path.json.JsonPath;
@@ -18,6 +19,7 @@ public class synSetsApi extends BaseTest {
 	String jsonCreateSynsetWithRelation = "{ \"request\": {\"synset\":{ \"identifier\": \"ka_s_716\", \"lemma\": \"ಕೋತಿ\",\"difficultyLevel\": \"Easy\", \"Antonyms\":[{\"identifier\": \"ka_s_713\"}]}}}";
 
 	JSONObject jsCreate = new JSONObject(jsonCreateSynset);
+	
 	// Create Synset with valid language
 	@Test
 	public void createValidLanguageSynsetExpectSuccess200() {
@@ -37,7 +39,6 @@ public class synSetsApi extends BaseTest {
 			spec(get200ResponseSpec());
 	}
 	// Create Synset with invalid language
-
 	@Test
 	public void createInvalidLanguageSynsetExpect400() {
 		
@@ -334,69 +335,69 @@ public class synSetsApi extends BaseTest {
 	}
 	
 	// Synset with word as Antonym(relation)
-		@Test
-		public void createSynsetWithWordAsAntonymExpect400() {
-			//jsonCreateSynsetWithRelation = jsonCreateSynsetWithRelation.replace("Antonyms", "synonyms");
-			JSONObject jsCreateSynset = new JSONObject(jsonCreateSynsetWithRelation);
-			jsCreateSynset.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"").getJSONObject("antonyms").put("identifier", "en_w_707");
-			String jsonCreateSynsetWithRelation = jsCreate.toString();
-			System.out.println(jsonCreateSynsetWithRelation);
-			setURI();
-			given().
-				spec(getRequestSpec(contentType, validuserId)).
-				body(jsonCreateSynsetWithRelation).
-			with().
-				contentType(JSON).
-			when().
-				post("language/dictionary/synset/en").
-			then().
-				log().all().
-				spec(get400ResponseSpec());
-		}
+	@Test
+	public void createSynsetWithWordAsAntonymExpect400() {
+		//jsonCreateSynsetWithRelation = jsonCreateSynsetWithRelation.replace("Antonyms", "synonyms");
+		JSONObject jsCreateSynset = new JSONObject(jsonCreateSynsetWithRelation);
+		jsCreateSynset.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"").getJSONObject("antonyms").put("identifier", "en_w_707");
+		String jsonCreateSynsetWithRelation = jsCreate.toString();
+		System.out.println(jsonCreateSynsetWithRelation);
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateSynsetWithRelation).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	// Synset with synset as antonym(relation)
+	@Test
+	public void createSynsetWithSynsetAsAntonymExpectSuccess200() {
 		
-		// Synset with synset as antonym(relation)
-		@Test
-		public void createSynsetWithSynsetAsAntonymExpectSuccess200() {
-			
-			//Create valid synset
-			jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
-			String jsonCreateValidLemmaSynset = jsCreate.toString();
-			setURI();
-			Response R = 
-			given().
-				spec(getRequestSpec(contentType, validuserId)).
-				body(jsonCreateValidLemmaSynset).
-			with().
-				contentType(JSON).
-			when().
-				post("language/dictionary/synset/en").
-			then().
-				log().all().
-				spec(get200ResponseSpec()).
-			extract().
-				response();
-			
-			//Fetching the node id
-			JsonPath jP = R.jsonPath();
-			String nodeId = jP.get("result.node_id");
-			
-			//Create Synset with synset as Antonym
-			//jsonCreateSynsetWithRelation = jsonCreateSynsetWithRelation.replace("Antonyms", "synonyms");
-			JSONObject jsCreateSynset = new JSONObject(jsonCreateSynsetWithRelation);
-			jsCreateSynset.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"").getJSONObject("antonyms").put("identifier", nodeId);
-			String jsonCreateSynsetWithRelation = jsCreate.toString();
-			System.out.println(jsonCreateSynsetWithRelation);
-			setURI();
-			given().
-				spec(getRequestSpec(contentType, validuserId)).
-				body(jsonCreateSynsetWithRelation).
-			with().
-				contentType(JSON).
-			when().
-				post("language/dictionary/synset/en").
-			then().
-				log().all().
-				spec(get200ResponseSpec());
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Create Synset with synset as Antonym
+		//jsonCreateSynsetWithRelation = jsonCreateSynsetWithRelation.replace("Antonyms", "synonyms");
+		JSONObject jsCreateSynset = new JSONObject(jsonCreateSynsetWithRelation);
+		jsCreateSynset.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"").getJSONObject("antonyms").put("identifier", nodeId);
+		String jsonCreateSynsetWithRelation = jsCreate.toString();
+		System.out.println(jsonCreateSynsetWithRelation);
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateSynsetWithRelation).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec());
 		}
 		
 	// Synset with word as hypernyms(relation)
@@ -662,4 +663,186 @@ public class synSetsApi extends BaseTest {
 			spec(get200ResponseSpec());
 	}
 	
+	// Create synset with valid URL
+	@Test
+	public void createValidURLSynsetExpectSuccess200() {
+		
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidSynset = jsCreate.toString();
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec());
+	}
+	
+	// Create synset with valid URL
+	@Test
+	public void createInvalidURLSynsetExpect400() {
+		
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidSynset = jsCreate.toString();
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("domain/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	// Get valid synset with valid language and url
+	@Test
+	public void getValidURLSynsetExpectSuccess200() {
+		
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		// Get the created synset
+		setURI();
+		Response R2 = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+		when().
+			get("language/dictionary/synset/en/" +nodeId).
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		// Fetching the identifier and check for the condition
+		JsonPath jP1 = R2.jsonPath();
+		String identifier = jP1.get("result.node_id");
+		Assert.assertEquals(nodeId, identifier);
+	}
+	
+	// Get Invalid synset with valid language and url
+	@Test
+	public void getInvalidSynsetValidUrlExpect400() {
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+		when().
+			get("language/dictionary/synset/en/xfafn123").
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	// Get Valid Synset with valid url and invalid language
+	@Test
+	public void getInalidLanguageSynsetExpect400() {
+		
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		// Get the created synset
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+		when().
+			get("language/dictionary/synset/r343/" +nodeId).
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	// Get Invalid synset with Invalid language and Valid url
+	@Test
+	public void getInvalidSynsetInvalidLanguageExpect400() {
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+		when().
+			get("language/dictionary/synset/r2134/xfafn123").
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+		
+	// Get Valid synset with valid language and invalid url
+	@Test
+	public void getInvalidURLSynsetExpect400() {
+		
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		// Get the synset
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+		when().
+			get("domain/dictionary/synset/en" +nodeId).
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
 }
