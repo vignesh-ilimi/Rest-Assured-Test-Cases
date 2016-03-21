@@ -17,9 +17,12 @@ public class synSetsApi extends BaseTest {
 
 	String jsonCreateSynset = "{ \"request\": {\"synset\":{ \"identifier\": \"ka_s_716\", \"lemma\": \"ಕೋತಿ\",\"difficultyLevel\": \"Easy\"}}}";
 	String jsonCreateSynsetWithRelation = "{ \"request\": {\"synset\":{ \"identifier\": \"ka_s_716\", \"lemma\": \"ಕೋತಿ\",\"difficultyLevel\": \"Easy\", \"Antonyms\":[{\"identifier\": \"ka_s_713\"}]}}}";
-
-	JSONObject jsCreate = new JSONObject(jsonCreateSynset);
+	String jsonSearchSynset = "{ \"request\": {\"search\": { \"gloss\": [\"Hi\"],\"identifier\": [\"ka_s_716\"],\"fields\": [\"gloss\"],\"limit\": 100}}}";
+	String jsonUpdateSynset = "{\"request\": {\"synset\":{\"difficultyLevel\": \"Easy\",\"Antonyms\":[{\"identifier\":\"ka_s_713\"}]}}}";
 	
+	JSONObject jsCreate = new JSONObject(jsonCreateSynset);
+	JSONObject jsSearch = new JSONObject(jsonSearchSynset);
+	JSONObject jsUpdate = new JSONObject(jsonUpdateSynset);
 	// Create Synset with valid language
 	@Test
 	public void createValidLanguageSynsetExpectSuccess200() {
@@ -33,7 +36,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -51,7 +54,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/123abc").
+			post("language/dictionary/Synset/123abc").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -70,7 +73,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/EN").
+			post("language/dictionary/Synset/EN").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -89,7 +92,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/").
+			post("language/dictionary/Synset/").
 		then().
 			log().all().
 			spec(get500ResponseSpec());
@@ -107,7 +110,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -126,7 +129,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -144,7 +147,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -163,7 +166,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -182,7 +185,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -203,7 +206,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -220,7 +223,7 @@ public class synSetsApi extends BaseTest {
 		given().
 			spec(getRequestSpec(contentType, validuserId)).
 		when().
-			get("language/dictionary/synset/en/" +nodeId).
+			get("language/dictionary/Synset/en/" +nodeId).
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -241,7 +244,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -262,7 +265,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -283,7 +286,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -304,7 +307,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -328,7 +331,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -349,7 +352,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -370,7 +373,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -394,7 +397,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -415,7 +418,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -436,7 +439,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -460,7 +463,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -481,7 +484,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -502,7 +505,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -526,7 +529,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -547,7 +550,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -568,7 +571,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -592,7 +595,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -612,7 +615,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -633,7 +636,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -657,7 +660,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -676,7 +679,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec());
@@ -716,7 +719,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -733,7 +736,7 @@ public class synSetsApi extends BaseTest {
 		given().
 			spec(getRequestSpec(contentType, validuserId)).
 		when().
-			get("language/dictionary/synset/en/" +nodeId).
+			get("language/dictionary/Synset/en/" +nodeId).
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -753,7 +756,7 @@ public class synSetsApi extends BaseTest {
 		given().
 			spec(getRequestSpec(contentType, validuserId)).
 		when().
-			get("language/dictionary/synset/en/xfafn123").
+			get("language/dictionary/Synset/en/xfafn123").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -774,7 +777,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -790,7 +793,7 @@ public class synSetsApi extends BaseTest {
 		given().
 			spec(getRequestSpec(contentType, validuserId)).
 		when().
-			get("language/dictionary/synset/r343/" +nodeId).
+			get("language/dictionary/Synset/r343/" +nodeId).
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -803,7 +806,7 @@ public class synSetsApi extends BaseTest {
 		given().
 			spec(getRequestSpec(contentType, validuserId)).
 		when().
-			get("language/dictionary/synset/r2134/xfafn123").
+			get("language/dictionary/Synset/r2134/xfafn123").
 		then().
 			log().all().
 			spec(get400ResponseSpec());
@@ -824,7 +827,7 @@ public class synSetsApi extends BaseTest {
 		with().
 			contentType(JSON).
 		when().
-			post("language/dictionary/synset/en").
+			post("language/dictionary/Synset/en").
 		then().
 			log().all().
 			spec(get200ResponseSpec()).
@@ -844,5 +847,226 @@ public class synSetsApi extends BaseTest {
 		then().
 			log().all().
 			spec(get400ResponseSpec());
+	}
+	
+	// Search valid synset using valid url
+	@Test
+	public void searchValidSynsetExpectSuccess200() {
+		
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/Synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Searching the created synset
+		setURI();
+		jsSearch.getJSONObject("request").getJSONObject("synset").put("identifier", nodeId);
+		String jsonSearchValidSynset = jsSearch.toString();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonSearchValidSynset).
+		when().
+			post("synset/search/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec());
+	}
+	
+	//Search invalid synset with valid url(Other language synset)
+	@Test
+	public void searchOtherLanguageSynsetExpect400() {
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonSearchSynset).
+		when().
+			post("synset/search/en").
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	//Search valid synset with invalid url(Other language synset)
+	@Test
+	public void searchInvalidURLSynsetExpect500() {
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonSearchSynset).
+		when().
+			post("domain/search/en").
+		then().
+			log().all().
+			spec(get500ResponseSpec());
+	}
+	
+	//Update synset with valid url and content
+	@Test
+	public void updateValidSynsetExpectSuccess200() {
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/Synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Updating the created synset
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonUpdateSynset).
+		when().
+			post("language/dictionary/Synset/en/" +nodeId).
+		then().
+			log().all().
+			spec(get200ResponseSpec());
+	}
+	
+	//Update synset with invalid language and valid content
+	@Test
+	public void updateInvalidLanguageSynsetExpect400() {
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/Synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Updating the created synset
+		setURI();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonUpdateSynset).
+		when().
+			post("language/dictionary/Synset/ka/" +nodeId).
+		then().
+			log().all().
+			spec(get500ResponseSpec());
+	}
+	
+	//Update synset with valid url and invalid content
+	@Test
+	public void updateInvalidContentSynsetExpect400() {
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/Synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Updating the created synset
+		setURI();
+		jsUpdate.getJSONObject("request").getJSONObject("synset").put("difficultyLevel", "Hard");
+		String jsonUpdateInvalidContent = jsUpdate.toString();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonUpdateInvalidContent).
+		when().
+			post("language/dictionary/Synset/en/" +nodeId).
+		then().
+			log().all().
+			spec(get400ResponseSpec());
+	}
+	
+	// Update Synset with invalid URL
+	@Test
+	public void updateSynsetWithInvalidURLExpect500(){
+
+		//Create valid synset
+		jsCreate.getJSONObject("request").getJSONObject("synset").put("lemma", "Test_QA_"+rn+"").put("identifier", "TestQA_id_"+rn+"");
+		String jsonCreateValidLemmaSynset = jsCreate.toString();
+		setURI();
+		Response R = 
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonCreateValidLemmaSynset).
+		with().
+			contentType(JSON).
+		when().
+			post("language/dictionary/Synset/en").
+		then().
+			log().all().
+			spec(get200ResponseSpec()).
+		extract().
+			response();
+		
+		//Fetching the node id
+		JsonPath jP = R.jsonPath();
+		String nodeId = jP.get("result.node_id");
+		
+		//Updating the created synset
+		setURI();
+		jsUpdate.getJSONObject("request").getJSONObject("synset").put("difficultyLevel", "Hard");
+		String jsonUpdateInvalidContent = jsUpdate.toString();
+		given().
+			spec(getRequestSpec(contentType, validuserId)).
+			body(jsonUpdateInvalidContent).
+		when().
+			post("domain/dictionary/Synset/en/" +nodeId).
+		then().
+			log().all().
+			spec(get500ResponseSpec());
 	}
 }
